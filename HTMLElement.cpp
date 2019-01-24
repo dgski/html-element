@@ -64,6 +64,8 @@ void HTMLElement::generate(ostream& stream) const
         generateContents(stream);
         stream << "</" << tag << ">";
     }
+
+    stream << endl;
 }
 
 HTMLElement* HTMLElement::getParent() const
