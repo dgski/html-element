@@ -16,7 +16,7 @@ HTMLElement div = HTMLElement("div");
         .setAttribute("style", "padding: 10px; color: white; background-color: black");
 
 // Append A Child Div
-div.appendChild(HTMLElement("text", "This is a code block"));
+div.appendChild(TextElement("This is a code block")); // TextElement is only special variant for Text Only Element
 
 // Output the HTML value
 output << div;
