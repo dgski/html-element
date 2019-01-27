@@ -26,7 +26,11 @@ public:
     void generate(ostream& stream) const;
 };
 
-HTMLElement TextElement(string content); // For Simpler Interface
+class TextElement: public HTMLElement
+{
+public:
+    TextElement(string content) : HTMLElement("text", content) {}
+};
 
 ostream& operator<<(ostream& stream, const HTMLElement& elem);
 

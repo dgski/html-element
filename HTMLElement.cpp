@@ -83,8 +83,3 @@ ostream& operator<<(ostream& stream, const HTMLElement& elem)
     elem.generate(stream);
     return stream;
 }
-
-HTMLElement TextElement(string content)
-{
-    return HTMLElement("text", content);
-}
