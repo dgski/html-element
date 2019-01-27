@@ -8,7 +8,7 @@ using namespace std;
 class HTMLElement
 {
     string tag;
-    string textContent;
+    string textContent; // For Text Elements
     HTMLElement* parent =  nullptr;
     list<HTMLElement> contents;
     map<string,string> attributes;
@@ -25,6 +25,8 @@ public:
     HTMLElement* getParent() const;
     void generate(ostream& stream) const;
 };
+
+HTMLElement TextElement(string content); // For Simpler Interface
 
 ostream& operator<<(ostream& stream, const HTMLElement& elem);
 
