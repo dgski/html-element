@@ -6,8 +6,6 @@
 
 using namespace std;
 
-class HTMLElement;
-
 class Element
 {
 protected:
