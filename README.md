@@ -8,18 +8,18 @@ Simple use example:
 ``` c++
 
 // Create Element
-HTMLElement div = HTMLElement("div");
+shared_ptr<HTMLElement> div = make_HTMLElement("div");
 
 // Set Attributes
     div
-        .setAttribute("class", "code")
-        .setAttribute("style", "padding: 10px; color: white; background-color: black");
+        ->setAttribute("class", "code")
+        ->setAttribute("style", "padding: 10px; color: white; background-color: black");
 
 // Append A Child Div
-div.appendChild(TextElement("This is a code block")); // TextElement is only special variant for Text Only Element
+div->appendChild(make_TextElement("This is a code block")); // TextElement is only special variant for Text Only Element
 
 // Output the HTML value
-output << div;
+output << *div;
 ```
 
 Output:

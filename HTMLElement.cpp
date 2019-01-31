@@ -2,40 +2,27 @@
 
 using namespace std;
 
-HTMLElement::HTMLElement(string _tag, string _textContent)
+HTMLElement::HTMLElement(string _tag)
 {
     tag = _tag;
-    textContent = _textContent;
 }
 
-HTMLElement& HTMLElement::setAttribute(const char*  attr, const char* val)
+HTMLElement* HTMLElement::setAttribute(const char*  attr, const char* val)
 {
     attributes[attr] = val;
-    return *this;
+    return this;
 }
 
-void HTMLElement::setSingle(bool _single)
+HTMLElement* HTMLElement::setSingle(bool _single)
 {
     single = _single;
-}
-
-HTMLElement& HTMLElement::appendChild(const HTMLElement& child)
-{
-    contents.push_back(child);
-
-    HTMLElement& justAdded = contents.back();
-    justAdded.setParent(this);
-
-    return justAdded;
+    return this;
 }
 
 void HTMLElement::generateContents(ostream& stream) const
 {
-    if(textContent.length())
-        stream << textContent;
-
-    for(const HTMLElement& e : contents)
-        e.generate(stream);
+    for(const shared_ptr<Element> e : contents)
+        e->generate(stream);
 }
 
 void HTMLElement::generateAttributes(ostream& stream) const
@@ -49,12 +36,6 @@ void HTMLElement::generateAttributes(ostream& stream) const
 
 void HTMLElement::generate(ostream& stream) const
 {   
-    if(tag == "text" || tag == "blank")
-    {
-        generateContents(stream);
-        return;
-    }
-
     stream << "<" << tag;
     generateAttributes(stream);
     stream << ">";
@@ -64,21 +45,18 @@ void HTMLElement::generate(ostream& stream) const
         generateContents(stream);
         stream << "</" << tag << ">";
     }
-
-    stream << endl;
 }
 
-HTMLElement* HTMLElement::getParent() const
+shared_ptr<HTMLElement> make_HTMLElement(const char* tag)
 {
-    return parent;
+    return make_shared<HTMLElement>(tag);
 }
-
-void HTMLElement::setParent(HTMLElement* _parent)
+shared_ptr<TextElement> make_TextElement(const char* text)
 {
-    parent = _parent;
+    return make_shared<TextElement>(text);
 }
 
-ostream& operator<<(ostream& stream, const HTMLElement& elem)
+ostream& operator<<(ostream& stream, const Element& elem)
 {
     elem.generate(stream);
     return stream;
