@@ -6,14 +6,16 @@
 
 using namespace std;
 
+class HTMLElement;
+
 class Element
 {
+protected:
     Element* parent = nullptr;
 public:
     Element(){}
     virtual void generate(ostream& stream) const = 0;
-    void setParent(Element* _parent) { parent = _parent; } 
-    Element* getParent() const { return parent; }
+    void setParent(Element* _parent) { parent = _parent; }
 };
 
 class HTMLElement : public Element
@@ -21,6 +23,7 @@ class HTMLElement : public Element
     string tag;
     list< shared_ptr<Element> > contents;
     map<string,string> attributes;
+
     bool single = false; // single tag ex: <br>
     void generateContents(ostream& stream) const;
     void generateAttributes(ostream& stream) const;
@@ -28,16 +31,18 @@ public:
     HTMLElement(string _tag);
     HTMLElement* setAttribute(const char* attr, const char* val);
     HTMLElement* setSingle(bool _single);
+    HTMLElement* getParent() const { return dynamic_cast<HTMLElement*>(parent); }
 
     template<class T>
-    shared_ptr<T> appendChild(shared_ptr<T> child)
+    T* appendChild(shared_ptr<T> child)
     {
         contents.push_back(child);
 
         shared_ptr<T> justAdded = dynamic_pointer_cast<T>(contents.back());
+
         justAdded->setParent(this);
 
-        return justAdded;
+        return justAdded.get();
     }
     void generate(ostream& stream) const;
 };
@@ -47,6 +52,7 @@ class TextElement: public Element
     string textContent;
 public:
     TextElement(string _textContent) : textContent(_textContent){}
+    HTMLElement* getParent() const { return dynamic_cast<HTMLElement*>(parent); }
     void generate(ostream& stream) const
     {
         stream << textContent; 
