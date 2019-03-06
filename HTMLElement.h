@@ -22,7 +22,7 @@ class HTMLElement : public Element
     list< shared_ptr<Element> > contents;
     map<string,string> attributes;
 
-    bool single{false}; // single tag ex: <br>
+    bool single = false; // single tag ex: <br>
     void generateContents(ostream& stream) const;
     void generateAttributes(ostream& stream) const;
 public:
