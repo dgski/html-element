@@ -22,7 +22,7 @@ class HTMLElement : public Element
     list< shared_ptr<Element> > contents;
     map<string,string> attributes;
 
-    bool single = false; // single tag ex: <br>
+    bool single{false}; // single tag ex: <br>
     void generateContents(ostream& stream) const;
     void generateAttributes(ostream& stream) const;
 public:
@@ -30,18 +30,7 @@ public:
     HTMLElement* setAttribute(const char* attr, const char* val);
     HTMLElement* setSingle(bool _single);
     HTMLElement* getParent() const { return dynamic_cast<HTMLElement*>(parent); }
-
-    template<class T>
-    T* appendChild(shared_ptr<T> child)
-    {
-        contents.push_back(child);
-
-        shared_ptr<T> justAdded = dynamic_pointer_cast<T>(contents.back());
-
-        justAdded->setParent(this);
-
-        return justAdded.get();
-    }
+    template<class T> T* appendChild(shared_ptr<T> child);
     void generate(ostream& stream) const;
 };
 

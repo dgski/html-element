@@ -2,10 +2,8 @@
 
 using namespace std;
 
-HTMLElement::HTMLElement(string _tag)
-{
-    tag = _tag;
-}
+HTMLElement::HTMLElement(string _tag) : tag{_tag}
+{}
 
 HTMLElement* HTMLElement::setAttribute(const char*  attr, const char* val)
 {
@@ -32,6 +30,18 @@ void HTMLElement::generateAttributes(ostream& stream) const
 
     for(const auto& [key,value] : attributes)
         stream << key  << "='" << value << "' ";
+}
+
+template<class T>
+T* HTMLElement::appendChild(shared_ptr<T> child)
+{
+    contents.push_back(child);
+
+    shared_ptr<T> justAdded = dynamic_pointer_cast<T>(contents.back());
+
+    justAdded->setParent(this);
+
+    return justAdded.get();
 }
 
 void HTMLElement::generate(ostream& stream) const
