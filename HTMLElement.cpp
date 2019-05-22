@@ -7,7 +7,7 @@ HTMLElement::HTMLElement(string _tag) : tag{_tag}
 
 HTMLElement* HTMLElement::setAttribute(const char*  attr, const char* val)
 {
-    attributes[attr] = val;
+    attributes.emplace_back(attr,val);
     return this;
 }
 
