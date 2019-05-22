@@ -3,6 +3,7 @@
 #include <map>
 #include <iostream>
 #include <memory>
+#include <utility>
 
 using namespace std;
 
@@ -20,7 +21,7 @@ class HTMLElement : public Element
 {
     string tag;
     list< shared_ptr<Element> > contents;
-    map<string,string> attributes;
+    list<pair<string,string>> attributes;
 
     bool single = false; // single tag ex: <br>
     void generateContents(ostream& stream) const;
